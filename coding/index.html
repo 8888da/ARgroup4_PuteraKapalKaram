@@ -7,18 +7,20 @@
     <title>Putera Kapal Karam: Kisah Penerimaan dan Perpaduan</title>
     <style>
 		:root {
-    --primary: #C96F4E;   /* terracotta accent */
-    --dark: #1D1D1D;
-    --secondary: #3A3A3A;
-    --bg-light: #FAF9F7;
-    --section-bg: #F4EDE6;
-    --card-bg: #FFFFFF;
-    --footer-bg: #3A3A3A;
-    --footer-text: #FFFFFF;
-}
+            --primary: #C96F4E;   /* terracotta accent */
+            --dark: #1D1D1D;
+            --secondary: #3A3A3A;
+            --bg-light: #FAF9F7;
+            --section-bg: #F4EDE6;
+            --card-bg: #FFFFFF;
+            --footer-bg: #3A3A3A;
+            --footer-text: #FFFFFF;
+        }
 
-		
-		
+        
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
         body {
             font-family: 'General Sans', sans-serif;
             background: url("image/book cover (start).png") no-repeat center center fixed;
@@ -27,7 +29,9 @@
             text-align: center;
             padding: 20px;
             line-height: 1.6;
+            padding-top: 80px;
         }
+
         body::before {
             content: "";
             position: fixed;
@@ -38,7 +42,45 @@
             background: rgba(250, 249, 247, 0.85);
             z-index: -1;
         }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 1rem 5%; 
+            display: flex;
+            justify-content: space-between; 
+            align-items: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); 
+        }
+
+        .logo { font-size: 1.6rem; font-weight: 700; color: var(--primary); }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.8rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        nav a:hover { color: var(--primary); }
+
+
+        .hero {
+            align-items: center;
+        }
+
         h1 {
+            
             margin: 5px 0;
             font-size: 3em;
             font-weight: 700;
@@ -100,19 +142,36 @@
     </style>
 </head>
 <body>
-    <h1>PUTERA KAPAL KARAM:</h1>
-	<h2>Kisah Penerimaan dan Perpaduan</h2>
-    <div class="story" id="story-container">
-        <p>
-			Putera Kapal Karam: Kisah Penerimaan dan Perpaduan mengisahkan seorang putera asing yang terdampar di Borneo selepas kapalnya musnah dilanda badai. Pertemuannya dengan masyarakat Murut membawa kepada persahabatan bersama Aru dan Lina, yang mengajar erti kepercayaan, penerimaan dan perpaduan.
-		</p>
-        <p>
-			Melalui cabaran alam dan perbezaan budaya, mereka membuktikan bahawa kekuatan sejati lahir daripada kebersamaan. Disokong teknologi Realiti Terimbuh (AR), kisah ini menghidupkan budaya Murut secara interaktif dan imersif, menjadikan pembacaan satu pengalaman yang bermakna.
-		</p>
-    </div>
+    <nav>
+        <div class="logo">PUTERA KAPAL KARAM</div>
+        <ul>
+            <li><a href="https://8888da.github.io/ARgroup4_PuteraKapalKaram/">Laman Utama</a></li>
+            <li><a href="https://8888da.github.io/ARgroup4_PuteraKapalKaram/coding/">Teroka AR</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h1>PUTERA KAPAL KARAM:</h1>
+        <h2>Kisah Penerimaan dan Perpaduan</h2>
+        <div class="story" id="story-container">
+            <p>
+                Putera Kapal Karam: Kisah Penerimaan dan Perpaduan mengisahkan seorang 
+                putera asing yang terdampar di Borneo selepas kapalnya musnah dilanda 
+                badai. Pertemuannya dengan masyarakat Murut membawa kepada persahabatan 
+                bersama Aru dan Lina, yang mengajar erti kepercayaan, penerimaan dan perpaduan.<br>
+            </p>
+            <p>
+                <br>
+                Melalui cabaran alam dan perbezaan budaya, mereka membuktikan 
+                bahawa kekuatan sejati lahir daripada kebersamaan. Disokong teknologi 
+                Realiti Terimbuh (AR), kisah ini menghidupkan budaya Murut secara 
+                interaktif dan imersif, menjadikan pembacaan satu pengalaman yang bermakna.
+            </p>
+        </div>
+    </section>
 
     <div class="audio-links">
-        <h2>Listen to the Story:</h2>
+        <h2>Alami Kisah Ini</h2>
         <a href="english" target="_blank">English Version</a>
 		<a href="bm" target="_blank">Bahasa Malaysia Version</a>
         <a href="dusun" target="_blank">Bahasa Dusun Version</a>
