@@ -5,6 +5,8 @@ const THREE = window.MINDAR.IMAGE.THREE;
 
 let activeModel = null;
 let activeMixer = null;
+let activeNarration = null;
+let activeSFX = null;
 
 const initializeMindAR = () => {
   return new window.MINDAR.IMAGE.MindARThree({
@@ -58,6 +60,11 @@ const setupLazyAnchor = (mindarThree, config) => {
   anchor.onTargetFound = async () => {
     const model = await loadModel(id, modelPath, scale, position);
 
+  if (activeNarration) {
+    activeNarration.pause();
+    activeNarration.currentTime = 0;
+  }
+
     anchor.group.add(model.scene);
     model.scene.visible = true;
 
@@ -71,6 +78,8 @@ const setupLazyAnchor = (mindarThree, config) => {
     activeModel = model;
     activeMixer = mixer;
 
+    
+    activeNarration = narration;
     narration.currentTime = 0;
     narration.play().catch(() => {});
   };
@@ -95,6 +104,19 @@ const setupLazyAnchor = (mindarThree, config) => {
       activeMixer = null;
     }
 
+     if (activeSFX) {
+      activeSFX.pause();
+      activeSFX.currentTime = 0;
+      activeSFX = null;
+    }
+
+
+    if (activeNarration === narration) {
+      narration.pause();
+      narration.currentTime = 0;
+      activeNarration = null;
+    }
+
 
   };
 };
@@ -113,9 +135,18 @@ const enableGlobalInteraction = (camera) => {
     const intersects = raycaster.intersectObjects(activeModel.scene.children, true);
 
     if (intersects.length > 0 && activeModel.interactionAudio) {
-      activeModel.interactionAudio.currentTime = 0;
-      activeModel.interactionAudio.play().catch(() => {});
+
+      // stop previous sfx
+      if (activeSFX) {
+        activeSFX.pause();
+        activeSFX.currentTime = 0;
+      }
+
+      activeSFX = activeModel.interactionAudio;
+      activeSFX.currentTime = 0;
+      activeSFX.play().catch(() => {});
     }
+
   });
 };
 
