@@ -58,7 +58,9 @@ const setupLazyAnchor = (mindarThree, config) => {
   }
 
   anchor.onTargetFound = async () => {
+    document.body.classList.add("loading");
     const model = await loadModel(id, modelPath, scale, position);
+    document.body.classList.remove("loading");
 
   if (activeNarration) {
     activeNarration.pause();
