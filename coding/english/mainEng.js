@@ -58,21 +58,15 @@ const setupLazyAnchor = (mindarThree, config) => {
   }
 
   anchor.onTargetFound = async () => {
-    if (modelCache[id]?.__added) return; 
     
     document.body.classList.add("loading");
     const model = await loadModel(id, modelPath, scale, position);
     document.body.classList.remove("loading");
 
-    anchor.group.add(model.scene);
-    model.scene.visible = true;
-  
-    modelCache[id].__added = true;
-
-  if (activeNarration) {
-    activeNarration.pause();
-    activeNarration.currentTime = 0;
-  }
+    if (activeNarration) {
+      activeNarration.pause();
+      activeNarration.currentTime = 0;
+    }
 
     anchor.group.add(model.scene);
     model.scene.visible = true;
@@ -99,9 +93,7 @@ const setupLazyAnchor = (mindarThree, config) => {
     const model = modelCache[id];
     anchor.group.remove(model.scene);
     model.scene.visible = false;
-
-    modelCache[id].__added = false;
-
+    
     if (mixer) {
       mixer.stopAllAction();
       mixer = null;
