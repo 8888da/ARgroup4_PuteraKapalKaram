@@ -21,6 +21,19 @@
         width: 100%;
         height: 100%;
       }
+      .loading::after {
+        content: "Poposuang model...";
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        z-index: 9999;
+      }
     </style>
   </head>
   <body>
