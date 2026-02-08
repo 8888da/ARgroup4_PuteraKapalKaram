@@ -27,20 +27,14 @@ const gltfLoader = configureGLTFLoader();
 const modelCache = {}; // cache loaded models
 
 const loadModel = async (id, path, scale, position) => {
-  if (!modelCache[id]) {
-    const original = await gltfLoader.loadAsync(path);
-    modelCache[id] = original;
-  }
+  if (modelCache[id]) return modelCache[id];
 
-  const original = modelCache[id];
-  const model = {
-    scene: original.scene.clone(true),
-    animations: original.animations
-  };
+  const model = await gltfLoader.loadAsync(path);
 
   model.scene.scale.set(scale.x, scale.y, scale.z);
   model.scene.position.set(position.x, position.y, position.z);
 
+  modelCache[id] = model;
   return model;
 };
 
@@ -50,9 +44,6 @@ const setupLighting = (scene) => {
 };
 
 const setupLazyAnchor = (mindarThree, config) => {
-  let isVisible = false;
-  let currentModel = null;
-  
   const { id, modelPath, scale, position, audioPath, sfxPath } = config;
   const anchor = mindarThree.addAnchor(id);
 
@@ -66,16 +57,12 @@ const setupLazyAnchor = (mindarThree, config) => {
     sfx.loop = false;
   }
 
-  anchor.onTargetFound = async () => {    
-      if (isVisible) return;
-      isVisible = true;
+  anchor.onTargetFound = async () => {
     
     document.body.classList.add("loading");
     const model = await loadModel(id, modelPath, scale, position);
     document.body.classList.remove("loading");
 
-    currentModel = model;
-  
     if (activeNarration) {
       activeNarration.pause();
       activeNarration.currentTime = 0;
@@ -94,19 +81,19 @@ const setupLazyAnchor = (mindarThree, config) => {
     activeModel = model;
     activeMixer = mixer;
 
+    
     activeNarration = narration;
     narration.currentTime = 0;
     narration.play().catch(() => {});
   };
 
   anchor.onTargetLost = () => {
-    isVisible = false;
-    if (!currentModel) return;
-  
-    anchor.group.remove(currentModel.scene);
-    currentModel.scene.visible = false;
-    currentModel = null;
+    if (!modelCache[id]) return;
 
+    const model = modelCache[id];
+    anchor.group.remove(model.scene);
+    model.scene.visible = false;
+    
     if (mixer) {
       mixer.stopAllAction();
       mixer = null;
@@ -115,7 +102,7 @@ const setupLazyAnchor = (mindarThree, config) => {
     narration.pause();
     narration.currentTime = 0;
 
-    if (activeModel) {
+    if (activeModel === model) {
       activeModel = null;
       activeMixer = null;
     }
@@ -133,8 +120,10 @@ const setupLazyAnchor = (mindarThree, config) => {
       activeNarration = null;
     }
 
+
   };
 };
+
 
 const enableGlobalInteraction = (camera) => {
   const raycaster = new THREE.Raycaster();
